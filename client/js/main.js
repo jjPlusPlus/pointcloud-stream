@@ -5,13 +5,27 @@ init();
 
 function init() {
 
+  // initiate Websockets
   var socket = io('http://localhost:3000');
   socket.on('connect', function () {
     console.log('connected');
   });
 
-  socket.on('event', function (data) {
-    console.log('event');
+  socket.on('points', function (data) {
+    // set the new points to the THREE scene
+    try {
+      data.forEach((point) => {
+        var geometry = new THREE.SphereBufferGeometry(2, 5, 5);
+        var material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+        var sphere = new THREE.Mesh(geometry, material);
+        sphere.position.x = point.x;
+        sphere.position.y = point.y;
+        sphere.position.z = point.z;
+        scene.add(sphere);
+      });
+    } catch (error) {
+      console.log(error);
+    }
   });
 
   socket.on('disconnect', function () {
@@ -23,11 +37,6 @@ function init() {
   camera.position.z = 400;
 
   scene = new THREE.Scene();
-
-  var geometry = new THREE.BoxBufferGeometry(20, 20, 20);
-  var material = new THREE.MeshBasicMaterial();
-  mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
 
   renderer = new THREE.WebGLRenderer();
   renderer.setPixelRatio(window.devicePixelRatio);
@@ -47,8 +56,6 @@ function onWindowResize() {
 
 function animate() {
   requestAnimationFrame(animate);
-  mesh.rotation.x += 0.005;
-  mesh.rotation.y += 0.005;
 
   renderer.render(scene, camera);
 }
