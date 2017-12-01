@@ -1,0 +1,23 @@
+{
+  "name": "pointcloud-stream",
+  "version": "1.0.0",
+  "description": "Streaming points in 3D space to a RESTful endpoint",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jjPlusPlus/pointcloud-stream.git"
+  },
+  "author": "JJ Medina",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jjPlusPlus/pointcloud-stream/issues"
+  },
+  "homepage": "https://github.com/jjPlusPlus/pointcloud-stream#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "socket.io": "^2.0.4"
+  }
+}
