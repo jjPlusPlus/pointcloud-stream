@@ -1,6 +1,10 @@
 var camera, scene, renderer;
 var mesh;
 
+// strategy 2c: moving the [shared] geom/material outside of the point constructor
+var geometry = new THREE.SphereBufferGeometry(2, 5, 5);
+var material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+
 init();
 
 function init() {
@@ -15,8 +19,6 @@ function init() {
     // set the new points to the THREE scene
     try {
       data.forEach((point) => {
-        var geometry = new THREE.SphereBufferGeometry(2, 5, 5);
-        var material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
         var sphere = new THREE.Mesh(geometry, material);
         sphere.position.x = point.x;
         sphere.position.y = point.y;
