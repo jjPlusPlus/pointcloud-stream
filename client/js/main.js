@@ -75,6 +75,9 @@ function init() {
   dirLightHeper = new THREE.DirectionalLightHelper( dirLight, 10 )
   scene.add( dirLightHeper );
 
+  // scene.background()
+  renderer = new THREE.WebGLRenderer({ clearColor: 0x575757, clearAlpha: 1 });
+  renderer.setClearColor(0x575757, 1);
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
