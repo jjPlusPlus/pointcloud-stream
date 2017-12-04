@@ -1,9 +1,10 @@
 var camera, scene, renderer;
 var mesh;
 
+var GROW_FACTOR = 20;
+
 // strategy 2c: moving the [shared] geom/material outside of the point constructor
-var geometry = new THREE.SphereBufferGeometry(0.25, 5, 4);
-var material = new THREE.MeshLambertMaterial({ color: 0xff0000 });
+var pointGeometry = new THREE.SphereBufferGeometry(0.15, 4, 4);
 
 init();
 
@@ -31,10 +32,21 @@ function init() {
     // set the new points to the THREE scene
     try {
       data.forEach((point) => {
-        var sphere = new THREE.Mesh(geometry, material);
-        sphere.position.x = point.x * 20;
-        sphere.position.y = point.y * 20;
-        sphere.position.z = point.z * 20;
+        if (!scene) {
+          return;
+        }
+
+        let material;
+        if (point.color) {
+          material = new THREE.MeshLambertMaterial({ color: new THREE.Color(point.color) });
+        } else {
+          material = new THREE.MeshLambertMaterial({ color: 0xff0000 });
+        }
+        var sphere = new THREE.Mesh(pointGeometry, material);
+        sphere.position.x = point.x * GROW_FACTOR;
+        sphere.position.y = point.y * GROW_FACTOR;
+        sphere.position.z = point.z * GROW_FACTOR;
+        THREE.GeometryUtils.merge(pointGeometry, sphere);
         scene.add(sphere);
       });
     } catch (error) {
