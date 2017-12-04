@@ -43,7 +43,8 @@ function init() {
 
   scene = new THREE.Scene();
 
-  renderer = new THREE.WebGLRenderer();
+  var axesHelper = new THREE.AxesHelper(10);
+  scene.add(axesHelper);
 
   // https://threejs.org/examples/webgl_lights_hemisphere.html
   hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
