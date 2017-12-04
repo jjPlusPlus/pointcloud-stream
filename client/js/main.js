@@ -75,26 +75,23 @@ function init() {
   controls.update();
 
   scene = new THREE.Scene();
+  scene.fog=new THREE.FogExp2( 0xdedede, 0.0035 );
 
   var axesHelper = new THREE.AxesHelper(10);
   scene.add(axesHelper);
 
+  /* LIGHTS */
+
+  var ambientLight = new THREE.AmbientLight(0x404040); // soft white light
+  scene.add(ambientLight);
+
   // https://threejs.org/examples/webgl_lights_hemisphere.html
-  hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
-  hemiLight.color.setHSL(1, 1, 1);
-  hemiLight.groundColor.setHSL(1, 1, 0.5);
-  hemiLight.position.set(0, 300, 0);
-  hemiLight.castShadow = true;
-  scene.add(hemiLight);
+  dirLight = new THREE.DirectionalLight(0xffffff, 1);
+  dirLight.color.setHSL(0.1, 0.75, 0.85);
+  dirLight.position.set(40, 100, 40);
+  dirLight.position.multiplyScalar(30);
+  scene.add(dirLight);
 
-  hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 20);
-  scene.add(hemiLightHelper);
-
-  dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
-  dirLight.color.setHSL( 0.1, 1, 0.95 );
-  dirLight.position.set( -20, 1.75, 1 );
-  dirLight.position.multiplyScalar( 30 );
-  scene.add( dirLight );
   dirLight.castShadow = true;
   dirLight.shadow.mapSize.width = 2048;
   dirLight.shadow.mapSize.height = 2048;
@@ -103,10 +100,11 @@ function init() {
   dirLight.shadow.camera.right = d;
   dirLight.shadow.camera.top = d;
   dirLight.shadow.camera.bottom = -d;
-  dirLight.shadow.camera.far = 3500;
-  dirLight.shadow.bias = -0.0001;
-  dirLightHeper = new THREE.DirectionalLightHelper( dirLight, 10 )
-  scene.add( dirLightHeper );
+  dirLight.shadow.camera.far = 2500;
+  dirLight.shadow.bias = -0.0009;
+
+  var dirLightHelper = new THREE.DirectionalLightHelper(dirLight, 10);
+  scene.add(dirLightHelper);
 
   /* GROUND PLANE */
 
@@ -120,10 +118,10 @@ function init() {
   scene.add(ground);
   ground.receiveShadow = true;
 
+  /* RENDERER */
 
-  // scene.background()
   renderer = new THREE.WebGLRenderer({ clearColor: 0x575757, clearAlpha: 1 });
-  renderer.setClearColor(0x575757, 1);
+  renderer.setClearColor(0xdedede, 1);
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
