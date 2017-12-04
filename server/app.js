@@ -19,6 +19,14 @@ app.post('/sendPoints', function (request, response) {
   response.sendStatus(200);
 });
 
+/* request will be a JSON "floor" attribute with a float-precision value */
+app.post('/setFloor', function (request, response) {
+  // stream the points down to any subscribed clients
+  io.emit('setFloor', request.body);
+  console.log('floor was set');
+  response.sendStatus(200);
+});
+
 io.on('connection', function (socket) {
   socket.emit('private', { msg: 'successful connection' });
 

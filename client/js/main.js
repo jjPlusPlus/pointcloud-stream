@@ -13,6 +13,18 @@ function init() {
   var socket = io('http://localhost:3000');
   socket.on('connect', function () {
     console.log('connected');
+
+  socket.on('setFloor', function (data) {
+    try {
+      if (!scene || !ground) {
+        return;
+      }
+
+      ground.position.y = (data.floor * GROW_FACTOR) - 0.3;
+    } catch (error) {
+      // eat the error
+      console.log(error);
+    }
   });
 
   socket.on('points', function (data) {
@@ -74,6 +86,19 @@ function init() {
   dirLight.shadow.bias = -0.0001;
   dirLightHeper = new THREE.DirectionalLightHelper( dirLight, 10 )
   scene.add( dirLightHeper );
+
+  /* GROUND PLANE */
+
+  var groundGeo = new THREE.CircleBufferGeometry(500, 50);
+  var groundMat = new THREE.MeshPhongMaterial({ color: 0xffffff, specular: 0xefefef });
+
+  groundMat.color.setHSL(0.180, 1, 1);
+  var ground = new THREE.Mesh(groundGeo, groundMat);
+  ground.rotation.x = -Math.PI / 2;
+  ground.position.y = -35;
+  scene.add(ground);
+  ground.receiveShadow = true;
+
 
   // scene.background()
   renderer = new THREE.WebGLRenderer({ clearColor: 0x575757, clearAlpha: 1 });
