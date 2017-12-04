@@ -20,9 +20,9 @@ function init() {
     try {
       data.forEach((point) => {
         var sphere = new THREE.Mesh(geometry, material);
-        sphere.position.x = point.x;
-        sphere.position.y = point.y;
-        sphere.position.z = point.z;
+        sphere.position.x = point.x * 20;
+        sphere.position.y = point.y * 20;
+        sphere.position.z = point.z * 20;
         scene.add(sphere);
       });
     } catch (error) {
