@@ -2,8 +2,8 @@ var camera, scene, renderer;
 var mesh;
 
 // strategy 2c: moving the [shared] geom/material outside of the point constructor
-var geometry = new THREE.SphereBufferGeometry(2, 5, 5);
-var material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+var geometry = new THREE.SphereBufferGeometry(0.25, 5, 4);
+var material = new THREE.MeshLambertMaterial({ color: 0xff0000 });
 
 init();
 
@@ -20,9 +20,9 @@ function init() {
     try {
       data.forEach((point) => {
         var sphere = new THREE.Mesh(geometry, material);
-        sphere.position.x = point.x;
-        sphere.position.y = point.y;
-        sphere.position.z = point.z;
+        sphere.position.x = point.x * 20;
+        sphere.position.y = point.y * 20;
+        sphere.position.z = point.z * 20;
         scene.add(sphere);
       });
     } catch (error) {
