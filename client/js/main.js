@@ -12,8 +12,11 @@ function init() {
 
   // initiate Websockets
   var socket = io('http://localhost:3000');
+
   socket.on('connect', function () {
     console.log('connected');
+    document.getElementById('socket-connected').innerHTML = 'Connected';
+  });
 
   socket.on('setFloor', function (data) {
     try {
@@ -48,6 +51,7 @@ function init() {
         sphere.position.z = point.z * GROW_FACTOR;
         THREE.GeometryUtils.merge(pointGeometry, sphere);
         scene.add(sphere);
+        document.getElementById('points-count').innerHTML = scene.children.length - 4;
       });
     } catch (error) {
       console.log(error);
@@ -56,6 +60,7 @@ function init() {
 
   socket.on('disconnect', function () {
     console.log('disconnected');
+    document.getElementById('socket-connected').innerHTML = 'Connecting';
   });
 
   // initiate the THREE scene
