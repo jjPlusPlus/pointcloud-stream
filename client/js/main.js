@@ -31,6 +31,12 @@ function init() {
     }
   });
 
+  socket.on('saveImages', function (data) {
+    console.log(data);
+    const path = data;
+    alert('Your file has been saved to your Desktop');
+  });
+
   socket.on('points', function (data) {
     // set the new points to the THREE scene
     try {
@@ -45,6 +51,7 @@ function init() {
         } else {
           material = new THREE.MeshLambertMaterial({ color: 0xff0000 });
         }
+
         var sphere = new THREE.Mesh(pointGeometry, material);
         sphere.position.x = point.x * GROW_FACTOR;
         sphere.position.y = point.y * GROW_FACTOR;
